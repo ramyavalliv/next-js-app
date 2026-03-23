@@ -1,0 +1,27 @@
+name: Backup Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to backup"
+        required: true
+        default: main
+
+jobs:
+  backup-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Create timestamp
+        id: ts
+        run: echo "ts=$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+
+      - name: Create backup branch
+        run: |
+          git checkout -b ${{ inputs.branch }}-backup-${{ steps.ts.outputs.ts }}
+          git push origin ${{ inputs.branch }}-backup-${{ steps.ts.outputs.ts }}
