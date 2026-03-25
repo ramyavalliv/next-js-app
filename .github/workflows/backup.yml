@@ -25,4 +25,3 @@ jobs:
         run: |
           git checkout -b ${{ inputs.branch }}-backup-${{ steps.ts.outputs.ts }}
           git push origin ${{ inputs.branch }}-backup-${{ steps.ts.outputs.ts }}
-          
